@@ -25,7 +25,7 @@ void main() async {
             colorScheme: ColorScheme.fromSwatch(
               accentColor: AppColor.accent,
               backgroundColor: Colors.white,
-              primaryColorDark: AppColor.secondaryDark,
+              primaryColorDark: AppColor.secondary,
             ),
           ),
         );
