@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:kp_mobile/app/routes/app_pages.dart';
 import 'package:kp_mobile/app/utils/helper.dart';
 import 'package:kp_mobile/app/values/colors.dart';
 
@@ -41,6 +42,7 @@ class LoginController extends GetxController {
       if (credential.user != null) {
         // TODO email verification
         isLoading.value = false;
+        Get.toNamed(Routes.ROOT);
       }
     } on FirebaseAuthException catch (e) {
       isLoading.value = false;
