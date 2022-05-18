@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kp_mobile/app/routes/app_pages.dart';
 import 'package:kp_mobile/app/services/auth_service.dart';
+import 'package:kp_mobile/app/services/storage_service.dart';
 import 'package:kp_mobile/app/utils/helper.dart';
 import 'package:kp_mobile/app/values/colors.dart';
 
@@ -29,7 +30,9 @@ class LoginController extends GetxController {
       return;
     }
 
-    Get.toNamed(Routes.ROOT, arguments: {'token': token});
+    final storage = Get.find<StorageService>();
+    storage.saveAuthToken(token);
+    Get.toNamed(Routes.ROOT);
   }
 
   void checkAuthInput() {

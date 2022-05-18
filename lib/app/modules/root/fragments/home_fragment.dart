@@ -10,41 +10,43 @@ class HomeFragment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<RootController>();
-    return ListView(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-      children: [
-        Container(
-          height: 64,
-          child: Row(
-            children: [
-              ClipOval(
-                child: Container(
-                  height: 48,
-                  width: 48,
-                  child: HeroIcon(HeroIcons.user),
-                ),
-              ),
-              SizedBox(
-                width: 16,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    controller.user.name!,
-                    style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                    ),
+    return Obx(
+      () => ListView(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        children: [
+          Container(
+            height: 64,
+            child: Row(
+              children: [
+                ClipOval(
+                  child: Container(
+                    height: 48,
+                    width: 48,
+                    child: HeroIcon(HeroIcons.user),
                   ),
-                  Text(controller.user.email!),
-                ],
-              )
-            ],
-          ),
-        )
-      ],
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      controller.user.value.name ?? '',
+                      style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(controller.user.value.email ?? ''),
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
