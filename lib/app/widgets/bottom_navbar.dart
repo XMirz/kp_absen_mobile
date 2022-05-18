@@ -3,6 +3,7 @@ import 'package:get/instance_manager.dart';
 import 'package:get/state_manager.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:kp_mobile/app/modules/root/controllers/root_controller.dart';
+import 'package:kp_mobile/app/modules/root/models/fragments.dart';
 import 'package:kp_mobile/app/values/colors.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -20,7 +21,7 @@ class BottomNavBar extends StatelessWidget {
         child: Obx(
           () => Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: controller.fragmentRows
+            children: Fragments.fragmentRows // NavigationBar Item
                 .map(
                   (fragmentRow) => Row(
                     mainAxisAlignment: MainAxisAlignment.start,

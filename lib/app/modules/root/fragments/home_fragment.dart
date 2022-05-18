@@ -1,24 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:kp_mobile/app/values/colors.dart';
+import 'package:get/get.dart';
+import 'package:heroicons/heroicons.dart';
+import 'package:kp_mobile/app/modules/root/controllers/root_controller.dart';
 
 class HomeFragment extends StatelessWidget {
   const HomeFragment({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          // color: AppColor.accentLight,
-          ),
-      child: Center(
-        child: Text(
-          'Andre Ganteng TAIK',
-          style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 20,
-              color: AppColor.accent),
-        ),
-      ),
+    final controller = Get.find<RootController>();
+    return StreamBuilder(
+      stream: controller.streamUser(),
+      builder: (context, snapshot) {
+        return ListView(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+          children: [
+            Container(
+              height: 64,
+              child: Row(
+                children: [
+                  ClipOval(
+                    child: Container(
+                      height: 48,
+                      width: 48,
+                      child: HeroIcon(HeroIcons.user),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 }
