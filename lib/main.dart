@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,41 +5,24 @@ import 'package:get/get.dart';
 import 'package:kp_mobile/app/values/colors.dart';
 
 import 'app/routes/app_pages.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 
 void main() async {
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(StreamBuilder(
-    stream: FirebaseAuth.instance.authStateChanges(),
-    builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.active) {
-        return GetMaterialApp(
-          title: "Application",
-          initialRoute: snapshot.data != null ? Routes.HOME : Routes.LOGIN,
-          getPages: AppPages.routes,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSwatch(
-              accentColor: AppColor.accent,
-              backgroundColor: Colors.white,
-              primaryColorDark: AppColor.secondary,
-            ),
-          ),
-        );
-      }
-      return MaterialApp(
-        home: Scaffold(
-          body: Center(
-            child: snapshot.connectionState == ConnectionState.waiting
-                ? CircularProgressIndicator()
-                : Text('Something went wrong!'),
-          ),
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  dynamic data = null;
+  runApp(
+    GetMaterialApp(
+      title: "Application",
+      initialRoute: data != null ? Routes.HOME : Routes.LOGIN,
+      getPages: AppPages.routes,
+      theme: ThemeData(
+        fontFamily: 'inter',
+        colorScheme: ColorScheme.fromSwatch(
+          accentColor: AppColor.accent,
+          backgroundColor: Colors.white,
+          primaryColorDark: AppColor.secondary,
         ),
-      );
-    },
-  ));
+      ),
+    ),
+  );
 }

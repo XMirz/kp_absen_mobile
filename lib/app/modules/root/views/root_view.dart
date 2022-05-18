@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -14,8 +13,7 @@ import '../controllers/root_controller.dart';
 class RootView extends GetView<RootController> {
   @override
   Widget build(BuildContext context) {
-    final auth = FirebaseAuth.instance;
-    print(auth.currentUser);
+    controller.init(); // Call init method to fetch user
     return Scaffold(
       body: SafeArea(
         child: Obx(

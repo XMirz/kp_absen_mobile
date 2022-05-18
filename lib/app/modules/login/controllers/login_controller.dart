@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:kp_mobile/app/routes/app_pages.dart';
+import 'package:kp_mobile/app/services/auth_service.dart';
 import 'package:kp_mobile/app/utils/helper.dart';
 import 'package:kp_mobile/app/values/colors.dart';
 
@@ -11,11 +11,28 @@ class LoginController extends GetxController {
   RxBool obsecurePassword = true.obs;
   RxBool isLoading = false.obs;
 
-  FirebaseAuth auth = FirebaseAuth.instance;
+  final AuthService _authService = AuthService();
 
   Future<void> login() async {
     Get.closeAllSnackbars();
     isLoading.value = true;
+    checkAuthInput(); // Check if user input not null
+    var token = await _authService.getAuthToken({
+      "email": emailCon.text,
+      "password": passwordCon.text,
+      "device_name": "Anu"
+    });
+    isLoading.value = false;
+    if (token == null) {
+      Helper.showSnackBar('Username atau password salah',
+          backgroundColor: AppColor.error);
+      return;
+    }
+
+    Get.toNamed(Routes.ROOT, arguments: {'token': token});
+  }
+
+  void checkAuthInput() {
     if (emailCon.text.isEmpty && passwordCon.text.isEmpty) {
       isLoading.value = false;
       Helper.showSnackBar('Masukkan email dan password!',
@@ -33,29 +50,6 @@ class LoginController extends GetxController {
       Helper.showSnackBar('Masukkan password!',
           backgroundColor: AppColor.error);
       return;
-    }
-    try {
-      final credential = await auth.signInWithEmailAndPassword(
-        email: emailCon.text,
-        password: passwordCon.text,
-      );
-      if (credential.user != null) {
-        // TODO email verification
-        isLoading.value = false;
-        Get.toNamed(Routes.ROOT);
-      }
-    } on FirebaseAuthException catch (e) {
-      isLoading.value = false;
-      if (e.code == 'user-not-found') {
-        Helper.showSnackBar('Akun tidak ditemukan!',
-            backgroundColor: AppColor.error);
-      } else if (e.code == 'wrong-password') {
-        Helper.showSnackBar('Password yang anda masukkan salah!',
-            backgroundColor: AppColor.error);
-      }
-    } catch (e) {
-      Helper.showSnackBar('Terjadi kesalahan pada sistem!',
-          backgroundColor: AppColor.error);
     }
   }
 }

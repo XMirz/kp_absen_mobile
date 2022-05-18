@@ -1,18 +1,22 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:get/get.dart';
+import 'package:kp_mobile/app/data/models/user.dart';
+import 'package:kp_mobile/app/services/root_services.dart';
 
 class RootController extends GetxController {
-  FirebaseAuth auth = FirebaseAuth.instance;
-  FirebaseDatabase _database = FirebaseDatabase.instance;
-
+  late String token; // TODO safe with shared prefs
+  late RootServices _services;
+  late User user;
   RxInt fragmentIndex = 0.obs;
-  void changePageIndex(int index) {
-    fragmentIndex.value = index;
+  init() async {
+    token = Get.arguments['token'];
+    _services = RootServices(token);
+    var result = await _services.getAuthUser();
+    if (result != null) {
+      user = result;
+    }
   }
 
-  Stream<DatabaseEvent> streamUser() async* {
-    String uid = auth.currentUser!.uid;
-    yield* _database.ref('/users').child(uid).onValue;
+  void changePageIndex(int index) {
+    fragmentIndex.value = index;
   }
 }
