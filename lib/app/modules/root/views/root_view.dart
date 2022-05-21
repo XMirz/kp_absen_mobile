@@ -14,28 +14,32 @@ class RootView extends GetView<RootController> {
   @override
   Widget build(BuildContext context) {
     controller.init(); // Call init method to fetch user
-    return Scaffold(
-      body: SafeArea(
-        child: Obx(
-          () => IndexedStack(
-            index: controller.fragmentIndex.value,
-            children: [
-              HomeFragment(),
-              HistoryFragment(),
-              ScheduleFragment(),
-              ProfileFragment()
-            ],
+    return Obx(
+      () => Scaffold(
+        body: SafeArea(
+          child: Obx(
+            () => IndexedStack(
+              index: controller.fragmentIndex.value,
+              children: [
+                HomeFragment(),
+                HistoryFragment(),
+                ScheduleFragment(),
+                ProfileFragment()
+              ],
+            ),
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavBar(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: HeroIcon(
-          HeroIcons.fingerPrint,
-          size: 40,
-        ),
+        bottomNavigationBar: BottomNavBar(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: controller.fragmentIndex.value != 0
+            ? null
+            : FloatingActionButton(
+                onPressed: () {},
+                child: HeroIcon(
+                  HeroIcons.fingerPrint,
+                  size: 40,
+                ),
+              ),
       ),
     );
   }
