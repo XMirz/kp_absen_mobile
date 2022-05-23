@@ -12,8 +12,10 @@ import '../controllers/root_controller.dart';
 
 class RootView extends GetView<RootController> {
   @override
+  RootController get controller => super.controller;
+
+  @override
   Widget build(BuildContext context) {
-    controller.init(); // Call init method to fetch user
     return Obx(
       () => Scaffold(
         body: SafeArea(

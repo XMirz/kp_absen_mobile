@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 class DioClient {
   Dio init({String? token}) {
     Dio dio = Dio();
-    dio.options.baseUrl = 'http://192.168.52.109:3000/api';
+    dio.options.baseUrl = 'http://192.168.148.109:3000/api';
     dio.interceptors.add(DioInterceptors());
     if (token != null) {
       dio.options.headers['Authorization'] = 'Bearer $token';

@@ -4,11 +4,13 @@ class Company {
   final String? location;
   final String? longitude;
   final String? latitude;
+  final String? today;
   final String? postalcode;
   Company({
     this.location,
     this.longitude,
     this.latitude,
+    this.today,
     this.postalcode,
   });
 
@@ -16,12 +18,14 @@ class Company {
     String? location,
     String? longitude,
     String? latitude,
+    String? today,
     String? postalcode,
   }) {
     return Company(
       location: location ?? this.location,
       longitude: longitude ?? this.longitude,
       latitude: latitude ?? this.latitude,
+      today: today ?? this.today,
       postalcode: postalcode ?? this.postalcode,
     );
   }
@@ -31,6 +35,7 @@ class Company {
       'location': location,
       'longitude': longitude,
       'latitude': latitude,
+      'today': today,
       'postalcode': postalcode,
     };
   }
@@ -40,6 +45,7 @@ class Company {
       location: map['location'],
       longitude: map['longitude'],
       latitude: map['latitude'],
+      today: map['today'],
       postalcode: map['postalcode'],
     );
   }
@@ -51,7 +57,7 @@ class Company {
 
   @override
   String toString() {
-    return 'Company(location: $location, longitude: $longitude, latitude: $latitude, postalcode: $postalcode)';
+    return 'Company(location: $location, longitude: $longitude, latitude: $latitude, today: $today, postalcode: $postalcode)';
   }
 
   @override
@@ -62,6 +68,7 @@ class Company {
         other.location == location &&
         other.longitude == longitude &&
         other.latitude == latitude &&
+        other.today == today &&
         other.postalcode == postalcode;
   }
 
@@ -70,6 +77,7 @@ class Company {
     return location.hashCode ^
         longitude.hashCode ^
         latitude.hashCode ^
+        today.hashCode ^
         postalcode.hashCode;
   }
 }

@@ -4,12 +4,14 @@ class User {
   final String? name;
   final String? address;
   final String? profile;
+  final String? role;
   final String? email;
 
   User({
     this.name,
     this.address,
     this.profile,
+    this.role,
     this.email,
   });
 
@@ -17,12 +19,14 @@ class User {
     String? name,
     String? address,
     String? profile,
+    String? role,
     String? email,
   }) {
     return User(
       name: name ?? this.name,
       address: address ?? this.address,
       profile: profile ?? this.profile,
+      role: role ?? this.role,
       email: email ?? this.email,
     );
   }
@@ -32,15 +36,17 @@ class User {
       'name': name,
       'address': address,
       'profile': profile,
+      'role': role,
       'email': email,
     };
   }
 
-  factory User.fromMap(Map<dynamic, dynamic> map) {
+  factory User.fromMap(Map<String, dynamic> map) {
     return User(
       name: map['name'],
       address: map['address'],
       profile: map['profile'],
+      role: map['role'],
       email: map['email'],
     );
   }
@@ -51,7 +57,7 @@ class User {
 
   @override
   String toString() {
-    return 'User(name: $name, address: $address, profile: $profile, email: $email)';
+    return 'User(name: $name, address: $address, profile: $profile, role: $role, email: $email)';
   }
 
   @override
@@ -62,11 +68,16 @@ class User {
         other.name == name &&
         other.address == address &&
         other.profile == profile &&
+        other.role == role &&
         other.email == email;
   }
 
   @override
   int get hashCode {
-    return name.hashCode ^ address.hashCode ^ profile.hashCode ^ email.hashCode;
+    return name.hashCode ^
+        address.hashCode ^
+        profile.hashCode ^
+        role.hashCode ^
+        email.hashCode;
   }
 }

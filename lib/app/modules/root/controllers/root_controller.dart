@@ -13,7 +13,8 @@ class RootController extends GetxController {
   final user = User().obs;
   final company = Company().obs;
   RxInt fragmentIndex = 0.obs;
-  init() async {
+  @override
+  void onInit() async {
     final storage = Get.find<StorageService>();
     var res = await storage.retrieveAuthToken();
     token = res as String;
@@ -28,7 +29,8 @@ class RootController extends GetxController {
     var fetchCompanyData = await _services.getInitialData();
     if (fetchCompanyData != null) {
       company.value = fetchCompanyData;
-      inspect(company);
+      inspect(company.value);
+      super.onInit();
     }
   }
 

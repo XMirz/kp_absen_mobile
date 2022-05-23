@@ -17,3 +17,15 @@ class Helper {
     );
   }
 }
+
+Widget spaceY(double height) {
+  return SizedBox(
+    height: height,
+  );
+}
+
+Widget spaceX(double width) {
+  return SizedBox(
+    width: width,
+  );
+}
