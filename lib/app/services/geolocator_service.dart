@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -29,14 +31,17 @@ class GeolocatorService extends Geolocator {
 
     LocationPermission permission;
     permission = await Geolocator.checkPermission();
+    print('First');
+    inspect(permission);
     // Chwck permission for the first time
-    if (permission != LocationPermission.always ||
+    if (permission != LocationPermission.always &&
         permission != LocationPermission.whileInUse) {
-      permission == await Geolocator.requestPermission();
+      permission = await Geolocator.requestPermission();
     }
     // Jika jika permmission diijinkan
     if (permission != LocationPermission.always &&
         permission != LocationPermission.whileInUse) {
+      inspect(permission);
       await Helper.showConfirmationDialog(
           title: 'Perhatian!',
           showCancel: false,
