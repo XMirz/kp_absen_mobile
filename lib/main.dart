@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:kp_mobile/app/services/geolocator_service.dart';
 import 'package:kp_mobile/app/services/storage_service.dart';
 import 'package:kp_mobile/app/values/colors.dart';
 
@@ -14,6 +15,7 @@ void main() async {
   await GetStorage.init();
   final storage = await Get.putAsync(() => StorageService().init());
   final authToken = await storage.retrieveAuthToken();
+  Get.putAsync(() => GeolocatorService().init());
   runApp(
     GetMaterialApp(
       title: "Application",

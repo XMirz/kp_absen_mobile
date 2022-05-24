@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kp_mobile/app/values/colors.dart';
 
 class Helper {
   Helper.showSnackBar(String message,
@@ -14,6 +15,52 @@ class Helper {
       ),
       borderRadius: 8,
       margin: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+    );
+  }
+  static Future<void> showConfirmationDialog({
+    required String title,
+    required String message,
+    bool? showCancel = true,
+    Function? onConfirm,
+    Function? onCancel,
+    String? textConfirm,
+    String? textCancel,
+    bool? barrierDismissible,
+  }) async {
+    await Get.dialog(
+      AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          showCancel == true
+              ? TextButton(
+                  onPressed: () => Get.back(),
+                  child: Text(
+                    textCancel ?? 'Batal',
+                    style: TextStyle(
+                      color: AppColor.secondaryLight,
+                    ),
+                  ),
+                )
+              : Container(),
+          textConfirm != null || onConfirm != null
+              ? TextButton(
+                  onPressed: () => onConfirm != null
+                      ? () {
+                          onConfirm();
+                        }()
+                      : () {
+                          Get.back();
+                        }(),
+                  child: Text(
+                    textConfirm ?? 'Konfirmasi',
+                    style: TextStyle(),
+                  ),
+                )
+              : Container(),
+        ],
+      ),
+      barrierDismissible: barrierDismissible ?? true,
     );
   }
 }
