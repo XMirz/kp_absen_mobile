@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:kp_mobile/app/data/models/company.dart';
 import 'package:kp_mobile/app/data/models/user.dart';
@@ -12,9 +13,12 @@ class RootController extends GetxController {
   GeolocatorService geolocator = Get.find<GeolocatorService>();
   late String token;
   late RootServices _services;
-  final user = User().obs;
-  final company = Company().obs;
+  late Position currentPosition;
+  Rx<User> user = User().obs;
+  Rx<Company> company = Company().obs;
   RxInt fragmentIndex = 0.obs;
+  RxString distanceFromOffice = '-'.obs;
+
   @override
   void onInit() async {
     final storage = Get.find<StorageService>();
@@ -33,11 +37,29 @@ class RootController extends GetxController {
       company.value = fetchCompanyData;
       inspect(company.value);
     }
+    // Get permission to acces location
     geolocator.getPermission();
+    // Set currentLocation
+    currentPosition = await geolocator.getCurrentPosition();
+    // Determine distance
+    distanceFromOffice.value = getDistanceFromOffice();
     super.onInit();
   }
 
   void changePageIndex(int index) {
     fragmentIndex.value = index;
+  }
+
+  String getDistanceFromOffice() {
+    double distance = Geolocator.distanceBetween(
+      double.parse(company.value.latitude!),
+      double.parse(company.value.longitude!),
+      currentPosition.latitude,
+      currentPosition.longitude,
+    );
+    if (distance > 1000) {
+      return '${(distance / 1000).toStringAsFixed(2)} km';
+    }
+    return '${distance.toStringAsFixed(2)} m';
   }
 }

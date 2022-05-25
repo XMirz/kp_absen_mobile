@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:kp_mobile/app/modules/root/controllers/root_controller.dart';
 import 'package:kp_mobile/app/utils/helper.dart';
 import 'package:kp_mobile/app/values/colors.dart';
+import 'package:kp_mobile/app/values/styles.dart';
 
 class PresenceCard extends StatelessWidget {
   const PresenceCard({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class PresenceCard extends StatelessWidget {
       () => Container(
         padding: EdgeInsets.fromLTRB(24, 20, 24, 16),
         decoration: BoxDecoration(
+          boxShadow: [shadowSmall],
           borderRadius: BorderRadius.all(
             Radius.circular(
               12,

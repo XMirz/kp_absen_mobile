@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:kp_mobile/app/utils/helper.dart';
@@ -10,6 +9,13 @@ class GeolocatorService extends Geolocator {
     return this;
   }
 
+  Future<Position> getCurrentPosition() async {
+    final currentPost = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.bestForNavigation);
+    return currentPost;
+  }
+
+// Request permission
   Future<bool> getPermission() async {
     // Cek jika lokasi dimatikan
     bool locationServiceEnabled;
