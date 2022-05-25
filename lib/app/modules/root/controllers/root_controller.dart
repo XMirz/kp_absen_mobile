@@ -2,7 +2,8 @@ import 'dart:developer';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:kp_mobile/app/data/models/company.dart';
+import 'package:kp_mobile/app/data/models/configuration.dart';
+import 'package:kp_mobile/app/data/models/presence.dart';
 import 'package:kp_mobile/app/data/models/user.dart';
 import 'package:kp_mobile/app/routes/app_pages.dart';
 import 'package:kp_mobile/app/services/geolocator_service.dart';
@@ -15,7 +16,8 @@ class RootController extends GetxController {
   late RootServices _services;
   late Position currentPosition;
   Rx<User> user = User().obs;
-  Rx<Company> company = Company().obs;
+  Rx<Configuration> configuration = Configuration().obs;
+  Rx<Presence> todayPresence = Presence().obs;
   RxInt fragmentIndex = 0.obs;
   RxString distanceFromOffice = '-'.obs;
 
@@ -32,14 +34,20 @@ class RootController extends GetxController {
     if (fetchUserData != null) {
       user.value = fetchUserData;
     }
-    var fetchCompanyData = await _services.getInitialData();
-    if (fetchCompanyData != null) {
-      company.value = fetchCompanyData;
-      inspect(company.value);
+
+    // get initialConfigData
+    var fetchConfigurationData = await _services.getInitialData();
+    if (fetchConfigurationData != null) {
+      configuration.value = fetchConfigurationData;
+      if (fetchConfigurationData.todayPresence != null) {
+        todayPresence.value =
+            Presence.fromMap(fetchConfigurationData.todayPresence!);
+      }
     }
     // Get permission to acces location
-    geolocator.getPermission();
+    await geolocator.getPermission();
     // Set currentLocation
+    print(todayPresence.value);
     currentPosition = await geolocator.getCurrentPosition();
     // Determine distance
     distanceFromOffice.value = getDistanceFromOffice();
@@ -52,8 +60,8 @@ class RootController extends GetxController {
 
   String getDistanceFromOffice() {
     double distance = Geolocator.distanceBetween(
-      double.parse(company.value.latitude!),
-      double.parse(company.value.longitude!),
+      double.parse(configuration.value.latitude!),
+      double.parse(configuration.value.longitude!),
       currentPosition.latitude,
       currentPosition.longitude,
     );

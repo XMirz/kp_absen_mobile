@@ -36,7 +36,7 @@ class PresenceCard extends StatelessWidget {
               ),
             ),
             Text(
-              controller.company.value.today ?? '',
+              controller.configuration.value.today ?? '',
               style: GoogleFonts.poppins(
                 fontSize: 18,
                 color: Colors.white,

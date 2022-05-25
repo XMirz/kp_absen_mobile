@@ -31,7 +31,8 @@ class RootView extends GetView<RootController> {
         ),
         bottomNavigationBar: BottomNavBar(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: controller.fragmentIndex.value != 0
+        floatingActionButton: controller.fragmentIndex.value != 0 ||
+                controller.configuration.value.eligible != true
             ? null
             : FloatingActionButton(
                 onPressed: () {

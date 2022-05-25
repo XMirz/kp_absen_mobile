@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:kp_mobile/app/data/models/company.dart';
+import 'package:kp_mobile/app/data/models/configuration.dart';
 import 'package:kp_mobile/app/data/models/user.dart';
 import 'package:kp_mobile/app/services/dio_client.dart';
 
@@ -21,11 +21,27 @@ class RootServices {
     return null;
   }
 
-  Future<Company?> getInitialData() async {
+  Future<Configuration?> getInitialData() async {
     try {
       Response response = await _client.get('/configdata');
-      var company = Company.fromJson(jsonEncode(response.data));
-      return company;
+      // Map<String, dynamic> data = jsonDecode(jsonEncode(response.data));
+      // Location? checkInLocation;
+      // Location? checkOutLocation;
+      // Map<String, dynamic>? todayPresenceMap = data['todayPresence'];
+      // Presence? todayPresence;
+      // if (todayPresenceMap != null) {
+      //   checkInLocation = todayPresenceMap['checkInLocation'] != null
+      //       ? Location.fromMap(todayPresenceMap['checkInLocation'])
+      //       : null;
+      //   checkOutLocation = todayPresenceMap['checkOutLocation'] != null
+      //       ? Location.fromMap(todayPresenceMap['checkOutLocation'])
+      //       : null;
+      //   todayPresence.copyWith()
+      // }
+
+      // inspect(data);
+      var configuration = Configuration.fromJson(jsonEncode(response.data));
+      return configuration;
     } on DioError catch (e) {
       print(e.message);
     } catch (e) {

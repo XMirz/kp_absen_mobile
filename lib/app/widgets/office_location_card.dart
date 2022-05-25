@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,7 +19,7 @@ class OfficeLocationCard extends StatelessWidget {
           TextHeading(title: 'Informasi kantor'),
           spaceY(8),
           Text(
-            controller.company.value.location ?? '',
+            controller.configuration.value.location ?? '',
             style: GoogleFonts.nunito(
               fontSize: 14,
               color: AppColor.secondary,
@@ -72,18 +70,11 @@ class OfficeLocationCard extends StatelessWidget {
                     ),
                     onTap: () async {
                       MapsLauncher.launchCoordinates(
-                          double.parse(controller.company.value.latitude!),
-                          double.parse(controller.company.value.longitude!),
+                          double.parse(
+                              controller.configuration.value.latitude!),
+                          double.parse(
+                              controller.configuration.value.longitude!),
                           'Pemerintah Kota Pekanbaru');
-                      // TODO Add open map;
-                      // final availableMaps = await MapLauncher.installedMaps;
-                      // inspect(availableMaps);
-                      // await availableMaps.first.showMarker(
-                      //     coords: Coords(
-                      //         double.parse(controller.company.value.latitude!),
-                      //         double.parse(
-                      //             controller.company.value.longitude!)),
-                      //     title: 'Pemerintah Kota Pekanbaru');
                     },
                     child: Container(
                       alignment: Alignment.center,

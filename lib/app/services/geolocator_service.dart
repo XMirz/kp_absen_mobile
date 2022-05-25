@@ -37,8 +37,6 @@ class GeolocatorService extends Geolocator {
 
     LocationPermission permission;
     permission = await Geolocator.checkPermission();
-    print('First');
-    inspect(permission);
     // Chwck permission for the first time
     if (permission != LocationPermission.always &&
         permission != LocationPermission.whileInUse) {

@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 class Presence {
   int? id;
   bool? inArea;
-  Map<String, String>? checkInLocation;
-  Map<String, String>? checkOutLocation;
+  Map<String, double>? checkInLocation;
+  Map<String, double>? checkOutLocation;
   DateTime? checkInTime;
   DateTime? checkOutTime;
   double? checkInDistance;
@@ -25,8 +25,8 @@ class Presence {
   Presence copyWith({
     int? id,
     bool? inArea,
-    Map<String, String>? checkInLocation,
-    Map<String, String>? checkOutLocation,
+    Map<String, double>? checkInLocation,
+    Map<String, double>? checkOutLocation,
     DateTime? checkInTime,
     DateTime? checkOutTime,
     double? checkInDistance,
@@ -61,13 +61,15 @@ class Presence {
     return Presence(
       id: map['id']?.toInt(),
       inArea: map['inArea'],
-      checkInLocation: Map<String, String>.from(map['checkInLocation']),
-      checkOutLocation: Map<String, String>.from(map['checkOutLocation']),
+      checkInLocation:
+          Map<String, double>.from(jsonDecode(map['checkInLocation'])),
+      checkOutLocation:
+          Map<String, double>.from(jsonDecode(map['checkOutLocation'])),
       checkInTime: map['checkInTime'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['checkInTime'])
+          ? DateTime.parse(map['checkInTime'])
           : null,
       checkOutTime: map['checkOutTime'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['checkOutTime'])
+          ? DateTime.parse(map['checkOutTime'])
           : null,
       checkInDistance: map['checkInDistance']?.toDouble(),
       checkOutDistance: map['checkOutDistance']?.toDouble(),
