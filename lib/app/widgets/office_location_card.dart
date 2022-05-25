@@ -51,7 +51,7 @@ class OfficeLocationCard extends StatelessWidget {
                         ),
                         spaceY(4),
                         Text(
-                          controller.distanceFromOffice.value,
+                          controller.distanceFromOfficeText.value,
                           style: GoogleFonts.poppins(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,

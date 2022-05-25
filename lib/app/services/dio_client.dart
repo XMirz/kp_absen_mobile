@@ -19,7 +19,7 @@ class DioInterceptors extends Interceptor {
   Future<dynamic> onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     print('onRequest');
-    // inspect(options);
+    inspect(options);
     handler.next(options);
   }
 

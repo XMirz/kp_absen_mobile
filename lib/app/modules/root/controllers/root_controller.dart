@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:kp_mobile/app/data/models/configuration.dart';
@@ -15,11 +13,12 @@ class RootController extends GetxController {
   late String token;
   late RootServices _services;
   late Position currentPosition;
+  late double metersFromOffice;
   Rx<User> user = User().obs;
   Rx<Configuration> configuration = Configuration().obs;
   Rx<Presence> todayPresence = Presence().obs;
   RxInt fragmentIndex = 0.obs;
-  RxString distanceFromOffice = '-'.obs;
+  RxString distanceFromOfficeText = '-'.obs;
 
   @override
   void onInit() async {
@@ -50,7 +49,7 @@ class RootController extends GetxController {
     print(todayPresence.value);
     currentPosition = await geolocator.getCurrentPosition();
     // Determine distance
-    distanceFromOffice.value = getDistanceFromOffice();
+    distanceFromOfficeText.value = getDistanceFromOffice();
     super.onInit();
   }
 
@@ -65,9 +64,35 @@ class RootController extends GetxController {
       currentPosition.latitude,
       currentPosition.longitude,
     );
+    metersFromOffice = distance;
     if (distance > 1000) {
       return '${(distance / 1000).toStringAsFixed(2)} km';
     }
     return '${distance.toStringAsFixed(2)} m';
+  }
+
+  Future<void> checkIn() async {
+    var todayPresence = await _services
+        .checkInOut(metersDistance: metersFromOffice, currentLocation: {
+      'longitude': currentPosition.longitude,
+      'latitude': currentPosition.latitude,
+    });
+    if (todayPresence != null) {
+      this.todayPresence.value = todayPresence;
+    }
+  }
+
+  Future<void> checkOut() async {
+    var todayPresence = await _services.checkInOut(
+        id: this.todayPresence.value.id,
+        metersDistance: metersFromOffice,
+        currentLocation: {
+          'longitude': currentPosition.longitude,
+          'latitude': currentPosition.latitude,
+        });
+    if (todayPresence != null) {
+      this.todayPresence.value = todayPresence;
+      configuration.value = configuration.value.copyWith(eligible: false);
+    }
   }
 }

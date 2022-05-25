@@ -63,8 +63,9 @@ class Presence {
       inArea: map['inArea'],
       checkInLocation:
           Map<String, double>.from(jsonDecode(map['checkInLocation'])),
-      checkOutLocation:
-          Map<String, double>.from(jsonDecode(map['checkOutLocation'])),
+      checkOutLocation: map['checkOutLocation'] != null
+          ? Map<String, double>.from(jsonDecode(map['checkOutLocation']))
+          : null,
       checkInTime: map['checkInTime'] != null
           ? DateTime.parse(map['checkInTime'])
           : null,

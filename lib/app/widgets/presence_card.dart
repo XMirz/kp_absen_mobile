@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:kp_mobile/app/modules/root/controllers/root_controller.dart';
 import 'package:kp_mobile/app/utils/helper.dart';
 import 'package:kp_mobile/app/values/colors.dart';
@@ -67,7 +68,9 @@ class PresenceCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '23:00 WIB',
+                          controller.todayPresence.value.checkInTime != null
+                              ? '${DateFormat("HH:mm").format(controller.todayPresence.value.checkInTime!)} WIB'
+                              : '-',
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w600,
                               color: Colors.white,
@@ -93,7 +96,9 @@ class PresenceCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '23:00 WIB',
+                          controller.todayPresence.value.checkOutTime != null
+                              ? '${DateFormat("HH:mm").format(controller.todayPresence.value.checkOutTime!)} WIB'
+                              : '-',
                           style: GoogleFonts.poppins(
                               fontWeight: FontWeight.w600,
                               color: Colors.white,

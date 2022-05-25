@@ -6,7 +6,7 @@ import 'package:kp_mobile/app/modules/root/fragments/history.dart';
 import 'package:kp_mobile/app/modules/root/fragments/home_fragment.dart';
 import 'package:kp_mobile/app/modules/root/fragments/profile_fragment.dart';
 import 'package:kp_mobile/app/modules/root/fragments/schedule.dart';
-import 'package:kp_mobile/app/utils/helper.dart';
+import 'package:kp_mobile/app/values/colors.dart';
 import 'package:kp_mobile/app/widgets/bottom_navbar.dart';
 
 import '../controllers/root_controller.dart';
@@ -35,16 +35,24 @@ class RootView extends GetView<RootController> {
                 controller.configuration.value.eligible != true
             ? null
             : FloatingActionButton(
+                backgroundColor:
+                    // Check if its a check out time or check in time
+                    controller.todayPresence.value.checkInTime != null &&
+                            controller.todayPresence.value.checkOutTime == null
+                        ? AppColor.error
+                        : AppColor.success,
                 onPressed: () {
-                  Helper.showConfirmationDialog(
-                    title: 'title',
-                    message: 'Test doang ini bro yahaha hayyuk',
-                    onConfirm: () {},
-                  );
+                  controller.todayPresence.value.checkInTime != null &&
+                          controller.todayPresence.value.checkOutTime == null
+                      ? controller.checkOut()
+                      : controller.checkIn();
                 },
                 child: HeroIcon(
-                  HeroIcons.fingerPrint,
-                  size: 40,
+                  controller.todayPresence.value.checkInTime != null &&
+                          controller.todayPresence.value.checkOutTime == null
+                      ? HeroIcons.x
+                      : HeroIcons.check,
+                  size: 32,
                 ),
               ),
       ),

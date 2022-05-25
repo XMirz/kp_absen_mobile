@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:kp_mobile/app/data/models/presence.dart';
-
 class Configuration {
   final String? location;
   final String? longitude;
