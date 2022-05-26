@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -18,6 +19,13 @@ void main() async {
   Get.putAsync(() => GeolocatorService().init());
   runApp(
     GetMaterialApp(
+      onInit: (() {
+        EasyLoading.instance
+          ..indicatorType = EasyLoadingIndicatorType.threeBounce
+          ..animationStyle = EasyLoadingAnimationStyle.scale
+          ..contentPadding = EdgeInsets.symmetric(horizontal: 24, vertical: 28)
+          ..loadingStyle = EasyLoadingStyle.light;
+      }),
       title: "Application",
       initialRoute: authToken != null ? Routes.ROOT : Routes.LOGIN,
       getPages: AppPages.routes,
@@ -29,6 +37,7 @@ void main() async {
           primaryColorDark: AppColor.secondary,
         ),
       ),
+      builder: EasyLoading.init(),
     ),
   );
 }

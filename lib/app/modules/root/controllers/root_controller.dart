@@ -1,3 +1,4 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:kp_mobile/app/data/models/configuration.dart';
@@ -13,11 +14,12 @@ class RootController extends GetxController {
   late String token;
   late RootServices _services;
   late Position currentPosition;
-  late double metersFromOffice;
+  RxBool isLoading = false.obs;
   Rx<User> user = User().obs;
   Rx<Configuration> configuration = Configuration().obs;
   Rx<Presence> todayPresence = Presence().obs;
   RxInt fragmentIndex = 0.obs;
+  RxDouble metersFromOffice = 0.0.obs;
   RxString distanceFromOfficeText = '-'.obs;
 
   @override
@@ -46,10 +48,11 @@ class RootController extends GetxController {
     // Get permission to acces location
     await geolocator.getPermission();
     // Set currentLocation
-    print(todayPresence.value);
     currentPosition = await geolocator.getCurrentPosition();
     // Determine distance
-    distanceFromOfficeText.value = getDistanceFromOffice();
+    metersFromOffice.value = getDistanceFromOffice();
+    distanceFromOfficeText.value =
+        getDistanceFromOfficeText(metersFromOffice.value);
     super.onInit();
   }
 
@@ -57,14 +60,17 @@ class RootController extends GetxController {
     fragmentIndex.value = index;
   }
 
-  String getDistanceFromOffice() {
+  double getDistanceFromOffice() {
     double distance = Geolocator.distanceBetween(
       double.parse(configuration.value.latitude!),
       double.parse(configuration.value.longitude!),
       currentPosition.latitude,
       currentPosition.longitude,
     );
-    metersFromOffice = distance;
+    return distance;
+  }
+
+  String getDistanceFromOfficeText(distance) {
     if (distance > 1000) {
       return '${(distance / 1000).toStringAsFixed(2)} km';
     }
@@ -72,20 +78,26 @@ class RootController extends GetxController {
   }
 
   Future<void> checkIn() async {
+    EasyLoading.show(status: 'Mohon tunggu...');
     var todayPresence = await _services
-        .checkInOut(metersDistance: metersFromOffice, currentLocation: {
+        .checkInOut(metersDistance: metersFromOffice.value, currentLocation: {
       'longitude': currentPosition.longitude,
       'latitude': currentPosition.latitude,
     });
+    EasyLoading.dismiss();
     if (todayPresence != null) {
       this.todayPresence.value = todayPresence;
+      EasyLoading.showSuccess('Absensi masuk berhasil');
+      return;
     }
+    EasyLoading.showError('Absensi masuk gagal.');
   }
 
   Future<void> checkOut() async {
+    EasyLoading.show(status: 'Mohon tunggu...');
     var todayPresence = await _services.checkInOut(
         id: this.todayPresence.value.id,
-        metersDistance: metersFromOffice,
+        metersDistance: metersFromOffice.value,
         currentLocation: {
           'longitude': currentPosition.longitude,
           'latitude': currentPosition.latitude,
@@ -93,6 +105,9 @@ class RootController extends GetxController {
     if (todayPresence != null) {
       this.todayPresence.value = todayPresence;
       configuration.value = configuration.value.copyWith(eligible: false);
+      EasyLoading.showSuccess('Absensi keluar berhasil.');
+      return;
     }
+    EasyLoading.showError('Absensi keluar gagal.');
   }
 }
