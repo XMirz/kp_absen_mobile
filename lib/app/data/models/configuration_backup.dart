@@ -58,6 +58,14 @@ class Configuration {
   }
 
   factory Configuration.fromMap(Map<String, dynamic> map) {
+    List<Map<String, dynamic>?>? rawPresencesHistory = [];
+    if (jsonDecode(map['presencesHistory']) != null) {
+      // for (var jsonPresence in map['presencesHistory']) {
+      //   var mapPresence = jsonDecode(jsonPresence);
+      //   var presence = Presence.fromMap(mapPresence);
+      rawPresencesHistory.addAll(jsonDecode(map['presencesHistory']));
+      // }
+    }
     return Configuration(
       location: map['location'],
       longitude: map['longitude'],
@@ -68,10 +76,7 @@ class Configuration {
       todayPresence: map['todayPresence'] != null
           ? Map<String, dynamic>.from(map['todayPresence'])
           : null,
-      presencesHistory: map['presencesHistory'] != null
-          ? List<Map<String, dynamic>?>.from(map['presencesHistory']
-              ?.map((x) => Map<String, dynamic?>.from(x)))
-          : null,
+      presencesHistory: rawPresencesHistory,
     );
   }
 

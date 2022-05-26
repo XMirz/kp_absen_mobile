@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 class DioClient {
   Dio init({String? token}) {
     Dio dio = Dio();
-    dio.options.baseUrl = 'http://192.168.119.109:3000/api';
+    dio.options.baseUrl = 'http://192.168.45.109:3000/api';
     dio.interceptors.add(DioInterceptors());
     if (token != null) {
       dio.options.headers['Authorization'] = 'Bearer $token';
@@ -19,7 +19,7 @@ class DioInterceptors extends Interceptor {
   Future<dynamic> onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     print('onRequest');
-    inspect(options);
+    // inspect(options);
     handler.next(options);
   }
 
@@ -34,7 +34,7 @@ class DioInterceptors extends Interceptor {
   Future<dynamic> onResponse(
       Response response, ResponseInterceptorHandler handler) async {
     print('onResponse');
-    inspect(response.data);
+    // inspect(response.data);
     handler.next(response);
   }
 }

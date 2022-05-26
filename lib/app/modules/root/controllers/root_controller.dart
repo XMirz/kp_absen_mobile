@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -18,6 +20,7 @@ class RootController extends GetxController {
   Rx<User> user = User().obs;
   Rx<Configuration> configuration = Configuration().obs;
   Rx<Presence> todayPresence = Presence().obs;
+  RxList<Presence> presencesHistory = <Presence>[].obs;
   RxInt fragmentIndex = 0.obs;
   RxDouble metersFromOffice = 0.0.obs;
   RxString distanceFromOfficeText = '-'.obs;
@@ -36,15 +39,8 @@ class RootController extends GetxController {
       user.value = fetchUserData;
     }
 
-    // get initialConfigData
-    var fetchConfigurationData = await _services.getInitialData();
-    if (fetchConfigurationData != null) {
-      configuration.value = fetchConfigurationData;
-      if (fetchConfigurationData.todayPresence != null) {
-        todayPresence.value =
-            Presence.fromMap(fetchConfigurationData.todayPresence!);
-      }
-    }
+    await getSetInitialData();
+
     // Get permission to acces location
     await geolocator.getPermission();
     // Set currentLocation
@@ -58,6 +54,26 @@ class RootController extends GetxController {
 
   void changePageIndex(int index) {
     fragmentIndex.value = index;
+  }
+
+  Future<void> getSetInitialData() async {
+    // get initialConfigData
+    presencesHistory.clear();
+    var fetchConfigurationData = await _services.getInitialData();
+    if (fetchConfigurationData != null) {
+      configuration.value = fetchConfigurationData;
+      if (fetchConfigurationData.todayPresence != null) {
+        todayPresence.value =
+            Presence.fromMap(fetchConfigurationData.todayPresence!);
+      }
+      // Set last five presence history
+      if (configuration.value.presencesHistory != null) {
+        configuration.value.presencesHistory?.forEach((mapPresence) {
+          presencesHistory.add(Presence.fromMap(mapPresence!));
+        });
+        inspect(presencesHistory);
+      }
+    }
   }
 
   double getDistanceFromOffice() {
