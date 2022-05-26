@@ -16,7 +16,8 @@ class RootController extends GetxController {
   late String token;
   late RootServices _services;
   late Position currentPosition;
-  RxBool isLoading = false.obs;
+  RxBool updatePasswordObsecured =
+      true.obs; // Obsecure status for update password view,
   Rx<User> user = User().obs;
   Rx<Configuration> configuration = Configuration().obs;
   Rx<Presence> todayPresence = Presence().obs;
@@ -122,6 +123,7 @@ class RootController extends GetxController {
           'latitude': currentPosition.latitude,
         });
     await Future.delayed(Duration(seconds: 3)); // Show loading longeer :v
+    EasyLoading.dismiss();
     if (todayPresence != null) {
       this.todayPresence.value = todayPresence;
       configuration.value = configuration.value.copyWith(eligible: false);
@@ -137,6 +139,18 @@ class RootController extends GetxController {
     if (isLoggedOut) {
       Get.offAndToNamed(Routes.LOGIN);
     }
+  }
+
+  Future<void> updatePassword(data) async {
+    EasyLoading.show(status: 'Mohon tunggu...');
+    bool isPasswordUpdateSucces = await _services.updatePassword(data);
+    EasyLoading.dismiss();
+    if (isPasswordUpdateSucces) {
+      EasyLoading.showSuccess('Berhasil memperbarui password.');
+      Get.back();
+      return;
+    }
+    EasyLoading.showError('Gagal memperbarui password.');
   }
 
   String get profileUrl => user.value.profile != null

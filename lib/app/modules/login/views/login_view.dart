@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:get/get.dart';
 import 'package:heroicons/heroicons.dart';
@@ -151,22 +152,16 @@ class LoginView extends GetView<LoginController> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (controller.isLoading.isFalse) {
                         controller.login();
                       }
                     },
-                    child: controller.isLoading.value
-                        ? Container(
-                            child: CircularProgressIndicator(
-                              color: AppColor.secondaryExtraLight,
-                            ),
-                          )
-                        : Text(
-                            'Masuk',
-                            style: TextStyle(
-                                fontSize: 16, fontFamily: FontFamily.poppins),
-                          ),
+                    child: Text(
+                      'Masuk',
+                      style: TextStyle(
+                          fontSize: 16, fontFamily: FontFamily.poppins),
+                    ),
                   ),
                 ),
               ),

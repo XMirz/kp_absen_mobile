@@ -10,6 +10,7 @@ import 'package:kp_mobile/app/values/styles.dart';
 import 'package:kp_mobile/app/widgets/profile/full_button.dart';
 import 'package:kp_mobile/app/widgets/profile/image_card.dart';
 import 'package:kp_mobile/app/widgets/profile/profile_info_card.dart';
+import 'package:kp_mobile/app/modules/root/views/update_password.dart';
 import 'package:kp_mobile/app/widgets/text.dart';
 
 class ProfileFragment extends StatelessWidget {
@@ -21,9 +22,6 @@ class ProfileFragment extends StatelessWidget {
     User user = controller.user.value;
     return ListView(
       children: [
-        Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-            child: TextHeading(title: 'Profil')),
         spaceY(16),
         ImageCard(),
         spaceY(4),
@@ -40,7 +38,10 @@ class ProfileFragment extends StatelessWidget {
                 : '-'),
         ProfileFullButton(
             onPressed: () {
-              print('anu');
+              Get.to(
+                UpdatePasswordView(),
+                transition: Transition.downToUp,
+              );
             },
             text: 'Ubah password',
             color: AppColor.secondary),

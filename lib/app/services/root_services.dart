@@ -69,9 +69,30 @@ class RootServices {
   }
 
   Future<bool> logout() async {
-    Response response = await _client.delete('/sanctum');
-    if (response.statusCode == 200) {
-      return true;
+    try {
+      Response response = await _client.delete('/sanctum');
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return false;
+  }
+
+  Future<bool> updatePassword(Map<dynamic, dynamic> data) async {
+    try {
+      Response response = await _client.patch('/user/password', data: data);
+      if (response.statusCode == 200) {
+        print(response.data);
+        if (response.data['status'] == "success") {
+          return true;
+        }
+      }
+    } on DioError catch (e) {
+      print(e.message);
+    } catch (e) {
+      print(e);
     }
     return false;
   }

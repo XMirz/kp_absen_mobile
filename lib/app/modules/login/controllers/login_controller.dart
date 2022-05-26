@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:kp_mobile/app/routes/app_pages.dart';
 import 'package:kp_mobile/app/services/auth_service.dart';
@@ -17,12 +18,14 @@ class LoginController extends GetxController {
   Future<void> login() async {
     Get.closeAllSnackbars();
     isLoading.value = true;
+    EasyLoading.show(status: 'Mohon tunggu...');
     checkAuthInput(); // Check if user input not null
     var token = await _authService.getAuthToken({
       "email": emailCon.text,
       "password": passwordCon.text,
       "device_name": "Anu"
     });
+    EasyLoading.dismiss();
     isLoading.value = false;
     if (token == null) {
       Helper.showSnackBar('Username atau password salah',
@@ -32,7 +35,7 @@ class LoginController extends GetxController {
 
     final storage = Get.find<StorageService>();
     storage.saveAuthToken(token);
-    Get.toNamed(Routes.ROOT);
+    Get.offAndToNamed(Routes.ROOT);
   }
 
   void checkAuthInput() {

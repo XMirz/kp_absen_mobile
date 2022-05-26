@@ -24,7 +24,7 @@ class ImageCard extends StatelessWidget {
               foregroundImage: NetworkImage(controller.profileUrl, scale: 1),
             ),
             spaceY(12),
-            TextHeadingSmall(title: user.name!),
+            TextHeadingSmall(title: user.name ?? '-'),
             // spaceY(4),
             TextBodyLarge(title: user.nip ?? '-')
           ],
