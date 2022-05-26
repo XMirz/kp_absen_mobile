@@ -28,4 +28,10 @@ class StorageService {
     prefs['token'] = tokenKey;
     await _box.write('prefs', prefs);
   }
+
+  Future deleteAuthToken() async {
+    var prefs = await getPrefs();
+    prefs['token'] = null;
+    await _box.write('prefs', prefs);
+  }
 }

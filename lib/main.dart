@@ -27,6 +27,7 @@ void main() async {
     GetMaterialApp(
       onInit: (() {
         EasyLoading.instance
+          ..maskType = EasyLoadingMaskType.black
           ..indicatorType = EasyLoadingIndicatorType.threeBounce
           ..animationStyle = EasyLoadingAnimationStyle.scale
           ..contentPadding = EdgeInsets.symmetric(horizontal: 24, vertical: 28)

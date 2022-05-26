@@ -41,14 +41,6 @@ class RootController extends GetxController {
 
     await getSetInitialData();
 
-    // Get permission to acces location
-    await geolocator.getPermission();
-    // Set currentLocation
-    currentPosition = await geolocator.getCurrentPosition();
-    // Determine distance
-    metersFromOffice.value = getDistanceFromOffice();
-    distanceFromOfficeText.value =
-        getDistanceFromOfficeText(metersFromOffice.value);
     super.onInit();
   }
 
@@ -57,8 +49,10 @@ class RootController extends GetxController {
   }
 
   Future<void> getSetInitialData() async {
-    // get initialConfigData
+    // Clear current state
+    todayPresence.value = Presence();
     presencesHistory.clear();
+    // get initialConfigData
     var fetchConfigurationData = await _services.getInitialData();
     if (fetchConfigurationData != null) {
       configuration.value = fetchConfigurationData;
@@ -71,9 +65,17 @@ class RootController extends GetxController {
         configuration.value.presencesHistory?.forEach((mapPresence) {
           presencesHistory.add(Presence.fromMap(mapPresence!));
         });
-        inspect(presencesHistory);
       }
     }
+
+    // Get permission to acces location
+    await geolocator.getPermission();
+    // Set currentLocation
+    currentPosition = await geolocator.getCurrentPosition();
+    // Determine distance
+    metersFromOffice.value = getDistanceFromOffice();
+    distanceFromOfficeText.value =
+        getDistanceFromOfficeText(metersFromOffice.value);
   }
 
   double getDistanceFromOffice() {
@@ -100,6 +102,7 @@ class RootController extends GetxController {
       'longitude': currentPosition.longitude,
       'latitude': currentPosition.latitude,
     });
+    await Future.delayed(Duration(seconds: 3)); // Show loading longeer :v
     EasyLoading.dismiss();
     if (todayPresence != null) {
       this.todayPresence.value = todayPresence;
@@ -118,10 +121,12 @@ class RootController extends GetxController {
           'longitude': currentPosition.longitude,
           'latitude': currentPosition.latitude,
         });
+    await Future.delayed(Duration(seconds: 3)); // Show loading longeer :v
     if (todayPresence != null) {
       this.todayPresence.value = todayPresence;
       configuration.value = configuration.value.copyWith(eligible: false);
       EasyLoading.showSuccess('Absensi keluar berhasil.');
+      getSetInitialData();
       return;
     }
     EasyLoading.showError('Absensi keluar gagal.');
