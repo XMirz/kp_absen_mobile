@@ -69,8 +69,8 @@ class Configuration {
           ? Map<String, dynamic>.from(map['todayPresence'])
           : null,
       presencesHistory: map['presencesHistory'] != null
-          ? List<Map<String, dynamic>?>.from(map['presencesHistory']
-              ?.map((x) => Map<String, dynamic?>.from(x)))
+          ? List<Map<String, dynamic>?>.from(
+              map['presencesHistory']?.map((x) => Map<String, dynamic>.from(x)))
           : null,
     );
   }

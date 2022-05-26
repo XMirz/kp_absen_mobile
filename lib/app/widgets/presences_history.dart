@@ -5,8 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:kp_mobile/app/modules/root/controllers/root_controller.dart';
 import 'package:kp_mobile/app/utils/helper.dart';
 import 'package:kp_mobile/app/values/colors.dart';
-import 'package:kp_mobile/app/widgets/text_heading.dart';
-import 'package:kp_mobile/app/widgets/text_heading_small.dart';
+import 'package:kp_mobile/app/widgets/text.dart';
 
 class PresencesHistory extends StatelessWidget {
   const PresencesHistory({Key? key}) : super(key: key);

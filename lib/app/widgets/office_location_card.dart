@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:kp_mobile/app/modules/root/controllers/root_controller.dart';
 import 'package:kp_mobile/app/utils/helper.dart';
 import 'package:kp_mobile/app/values/colors.dart';
-import 'package:kp_mobile/app/widgets/text_heading.dart';
+import 'package:kp_mobile/app/widgets/text.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 
 class OfficeLocationCard extends StatelessWidget {

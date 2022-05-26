@@ -1,16 +1,20 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:get/get.dart' hide Response;
 import 'package:kp_mobile/app/data/models/configuration.dart';
 import 'package:kp_mobile/app/data/models/presence.dart';
 import 'package:kp_mobile/app/data/models/user.dart';
 import 'package:kp_mobile/app/services/dio_client.dart';
+import 'package:kp_mobile/app/services/storage_service.dart';
 
 class RootServices {
   late String token;
   late Dio _client;
+  late StorageService _storageService;
   RootServices(String token) {
     _client = DioClient().init(token: token);
+    _storageService = Get.find<StorageService>();
   }
 
   Future<User?> getAuthUser() async {
@@ -62,5 +66,13 @@ class RootServices {
       print(e);
     }
     return null;
+  }
+
+  Future<bool> logout() async {
+    Response response = await _client.delete('/sanctum');
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
   }
 }

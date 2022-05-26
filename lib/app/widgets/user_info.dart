@@ -16,12 +16,9 @@ class UserInfo extends StatelessWidget {
         height: 64,
         child: Row(
           children: [
-            ClipOval(
-              child: Container(
-                height: 48,
-                width: 48,
-                child: HeroIcon(HeroIcons.user),
-              ),
+            CircleAvatar(
+              radius: 24,
+              foregroundImage: NetworkImage(controller.profileUrl, scale: 1),
             ),
             SizedBox(
               width: 16,

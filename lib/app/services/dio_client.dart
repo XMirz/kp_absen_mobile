@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response;
 import 'package:kp_mobile/app/routes/app_pages.dart';
@@ -26,7 +24,7 @@ class DioInterceptors extends Interceptor {
   Future<dynamic> onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     print('onRequest');
-    inspect(options);
+    // inspect(options);
     handler.next(options);
   }
 
@@ -48,7 +46,7 @@ class DioInterceptors extends Interceptor {
   Future<dynamic> onResponse(
       Response response, ResponseInterceptorHandler handler) async {
     print('onResponse');
-    inspect(response);
+    // inspect(response);
     handler.next(response);
   }
 }

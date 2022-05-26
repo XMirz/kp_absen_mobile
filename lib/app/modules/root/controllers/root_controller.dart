@@ -131,4 +131,15 @@ class RootController extends GetxController {
     }
     EasyLoading.showError('Absensi keluar gagal.');
   }
+
+  Future<void> logout() async {
+    bool isLoggedOut = await _services.logout();
+    if (isLoggedOut) {
+      Get.offAndToNamed(Routes.LOGIN);
+    }
+  }
+
+  String get profileUrl => user.value.profile != null
+      ? user.value.profile!
+      : "https://ui-avatars.com/api/?background=0D8ABC&color=fff&size=256&name=${user.value.name}";
 }

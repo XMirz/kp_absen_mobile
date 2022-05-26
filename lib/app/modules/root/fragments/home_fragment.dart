@@ -5,7 +5,7 @@ import 'package:kp_mobile/app/utils/helper.dart';
 import 'package:kp_mobile/app/widgets/office_location_card.dart';
 import 'package:kp_mobile/app/widgets/presence_card.dart';
 import 'package:kp_mobile/app/widgets/presences_history.dart';
-import 'package:kp_mobile/app/widgets/text_heading.dart';
+import 'package:kp_mobile/app/widgets/text.dart';
 import 'package:kp_mobile/app/widgets/user_info.dart';
 
 class HomeFragment extends StatelessWidget {
