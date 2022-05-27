@@ -34,19 +34,4 @@ class StorageService {
     prefs['token'] = null;
     await _box.write('prefs', prefs);
   }
-
-  Future<void> saveLink(String link) async {
-    var prefs = await getPrefs();
-    prefs['link'] = link;
-    await _box.write('prefs', prefs);
-  }
-
-  Future<String?> retrieveLink() async {
-    var prefs = await getPrefs();
-    var link = prefs['link'];
-    if (link != null) {
-      return link;
-    }
-    return null;
-  }
 }

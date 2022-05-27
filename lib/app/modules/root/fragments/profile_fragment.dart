@@ -3,10 +3,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:kp_mobile/app/data/models/user.dart';
 import 'package:kp_mobile/app/modules/root/controllers/root_controller.dart';
-import 'package:kp_mobile/app/services/storage_service.dart';
 import 'package:kp_mobile/app/utils/helper.dart';
 import 'package:kp_mobile/app/values/colors.dart';
-import 'package:kp_mobile/app/widgets/layouts/modal_layout.dart';
 import 'package:kp_mobile/app/widgets/profile/full_button.dart';
 import 'package:kp_mobile/app/widgets/profile/image_card.dart';
 import 'package:kp_mobile/app/widgets/profile/profile_info_card.dart';
@@ -56,33 +54,6 @@ class ProfileFragment extends StatelessWidget {
                   controller.logout();
                 },
                 text: 'Keluar',
-                color: AppColor.error),
-            ProfileFullButton(
-                onPressed: () async {
-                  final TextEditingController tcc = TextEditingController();
-                  final StorageService _storageService =
-                      Get.find<StorageService>();
-                  tcc.text = (await _storageService.retrieveLink())!;
-                  showModalBottomSheet(
-                      context: context,
-                      builder: (context) => Container(
-                            padding: MediaQuery.of(context).viewInsets,
-                            child: ModalLayout(
-                              onTapSubmit: () async {
-                                await _storageService.saveLink(tcc.text);
-                                Get.back();
-                              },
-                              title: 'Asu lo',
-                              child: Container(
-                                padding: EdgeInsets.all(20),
-                                child: TextField(
-                                  controller: tcc,
-                                ),
-                              ),
-                            ),
-                          ));
-                },
-                text: 'Anjay',
                 color: AppColor.error)
           ],
         ),

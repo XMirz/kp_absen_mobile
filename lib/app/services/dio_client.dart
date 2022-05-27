@@ -4,12 +4,9 @@ import 'package:kp_mobile/app/routes/app_pages.dart';
 import 'package:kp_mobile/app/services/storage_service.dart';
 
 class DioClient {
-  Future<Dio> init({String? token}) async {
-    // Update link only for development purpose
-    final StorageService storageService = Get.find<StorageService>();
+  Dio init({String? token}) {
     Dio dio = Dio();
-    var saveBaseUrl = await storageService.retrieveAuthToken();
-    dio.options.baseUrl = saveBaseUrl ?? 'http://192.168.221.109:3000/api';
+    dio.options.baseUrl = 'http://192.168.221.109:3000/api';
     dio.options.contentType = Headers.jsonContentType;
     dio.options.headers['accept'] = 'application/json';
     dio.interceptors.add(DioInterceptors());
