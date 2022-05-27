@@ -22,49 +22,51 @@ class ModalLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Modal title
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              InkWell(
-                  onTap: () {
-                    onTapCancel != null ? onTapCancel!() : Get.back();
-                  },
-                  child: HeroIcon(HeroIcons.x)),
-              spaceX(8),
-              TextHeading(title: title),
-              Spacer(),
-              submitIcon != null
-                  ? InkWell(
-                      onTap: () {
-                        onTapSubmit != null ? onTapSubmit!() : null;
-                      },
-                      child: submitIcon ??
-                          HeroIcon(
-                            HeroIcons.check,
-                            color: AppColor.accent,
-                            size: 28,
-                          ),
-                    )
-                  : Container(),
-              spaceX(8),
-            ],
-          ),
-          spaceY(16),
-          // modal content
-          Flexible(
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              padding: EdgeInsets.symmetric(horizontal: 4),
-              child: child,
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Modal title
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                InkWell(
+                    onTap: () {
+                      onTapCancel != null ? onTapCancel!() : Get.back();
+                    },
+                    child: HeroIcon(HeroIcons.x)),
+                spaceX(8),
+                TextHeading(title: title),
+                Spacer(),
+                onTapSubmit != null
+                    ? InkWell(
+                        onTap: () {
+                          onTapSubmit != null ? onTapSubmit!() : null;
+                        },
+                        child: submitIcon ??
+                            HeroIcon(
+                              HeroIcons.check,
+                              color: AppColor.accent,
+                              size: 28,
+                            ),
+                      )
+                    : Container(),
+                spaceX(8),
+              ],
             ),
-          ),
-        ],
+            spaceY(16),
+            // modal content
+            Flexible(
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                padding: EdgeInsets.symmetric(horizontal: 4),
+                child: child,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

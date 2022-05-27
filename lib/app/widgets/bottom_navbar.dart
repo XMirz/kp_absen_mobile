@@ -20,11 +20,11 @@ class BottomNavBar extends StatelessWidget {
         height: 64,
         child: Obx(
           () => Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: Fragments.fragmentRows // NavigationBar Item
                 .map(
                   (fragmentRow) => Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: fragmentRow
                         .map(
                           (fragment) => MaterialButton(

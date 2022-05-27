@@ -23,7 +23,7 @@ class HomeFragment extends StatelessWidget {
         children: [
           UserInfo(),
           spaceY(24),
-          TextHeading(title: 'Presensi'),
+          TextHeading(title: 'Presensi hari ini'),
           spaceY(12),
           TodayPresenceCard(),
           spaceY(24),

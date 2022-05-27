@@ -15,7 +15,7 @@ class PresencesHistory extends StatelessWidget {
       () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextHeading(title: 'Riwayat presensi'),
+          TextHeading(title: 'Presensi terakhir'),
           spaceY(8),
           ...controller.presencesHistory
               .map((presence) => PresenceCard(presence: presence))

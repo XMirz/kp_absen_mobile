@@ -24,20 +24,20 @@ class Fragments {
         icon: HeroIcons.home,
         index: 0,
       ),
-      Fragments(
-        name: 'Riwayat',
-        fragment: HistoryFragment(),
-        icon: HeroIcons.calendar,
-        index: 1,
-      )
+      // Fragments(
+      //   name: 'Riwayat',
+      //   fragment: HistoryFragment(),
+      //   icon: HeroIcons.calendar,
+      //   index: 1,
+      // )
     ],
     [
-      Fragments(
-        name: 'Jadwal',
-        fragment: ScheduleFragment(),
-        icon: HeroIcons.clipboardList,
-        index: 2,
-      ),
+      // Fragments(
+      //   name: 'Jadwal',
+      //   fragment: ScheduleFragment(),
+      //   icon: HeroIcons.clipboardList,
+      //   index: 2,
+      // ),
       Fragments(
         name: 'Profile',
         fragment: ProfileFragment(),
