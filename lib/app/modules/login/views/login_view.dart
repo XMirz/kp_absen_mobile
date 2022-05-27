@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-
 import 'package:get/get.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:kp_mobile/app/values/colors.dart';

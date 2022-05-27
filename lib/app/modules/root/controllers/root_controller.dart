@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -10,6 +8,7 @@ import 'package:kp_mobile/app/routes/app_pages.dart';
 import 'package:kp_mobile/app/services/geolocator_service.dart';
 import 'package:kp_mobile/app/services/root_services.dart';
 import 'package:kp_mobile/app/services/storage_service.dart';
+import 'package:map_launcher/map_launcher.dart';
 
 class RootController extends GetxController {
   GeolocatorService geolocator = Get.find<GeolocatorService>();
@@ -151,6 +150,19 @@ class RootController extends GetxController {
       return;
     }
     EasyLoading.showError('Gagal memperbarui password.');
+  }
+
+  Future<void> openMap(
+      {Coords? destination, Coords? coords, String? title}) async {
+    final availableMap = await MapLauncher.installedMaps;
+    if (destination != null) {
+      await availableMap.first.showDirections(
+        destination: destination,
+      );
+    } else {
+      assert(coords != null && title != null);
+      await availableMap.first.showMarker(coords: coords!, title: title!);
+    }
   }
 
   String get profileUrl => user.value.profile != null

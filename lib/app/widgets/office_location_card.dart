@@ -5,7 +5,7 @@ import 'package:kp_mobile/app/modules/root/controllers/root_controller.dart';
 import 'package:kp_mobile/app/utils/helper.dart';
 import 'package:kp_mobile/app/values/colors.dart';
 import 'package:kp_mobile/app/widgets/text.dart';
-import 'package:maps_launcher/maps_launcher.dart';
+import 'package:map_launcher/map_launcher.dart';
 
 class OfficeLocationCard extends StatelessWidget {
   OfficeLocationCard({Key? key}) : super(key: key);
@@ -69,12 +69,13 @@ class OfficeLocationCard extends StatelessWidget {
                       Radius.circular(12),
                     ),
                     onTap: () async {
-                      MapsLauncher.launchCoordinates(
-                          double.parse(
-                              controller.configuration.value.latitude!),
-                          double.parse(
-                              controller.configuration.value.longitude!),
-                          'Pemerintah Kota Pekanbaru');
+                      await controller.openMap(
+                        destination: Coords(
+                            double.parse(
+                                controller.configuration.value.latitude!),
+                            double.parse(
+                                controller.configuration.value.longitude!)),
+                      );
                     },
                     child: Container(
                       alignment: Alignment.center,

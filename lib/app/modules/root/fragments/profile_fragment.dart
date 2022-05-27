@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heroicons/heroicons.dart';
 import 'package:intl/intl.dart';
 import 'package:kp_mobile/app/data/models/user.dart';
 import 'package:kp_mobile/app/modules/root/controllers/root_controller.dart';
 import 'package:kp_mobile/app/utils/helper.dart';
 import 'package:kp_mobile/app/values/colors.dart';
-import 'package:kp_mobile/app/values/styles.dart';
 import 'package:kp_mobile/app/widgets/profile/full_button.dart';
 import 'package:kp_mobile/app/widgets/profile/image_card.dart';
 import 'package:kp_mobile/app/widgets/profile/profile_info_card.dart';
 import 'package:kp_mobile/app/modules/root/views/update_password.dart';
-import 'package:kp_mobile/app/widgets/text.dart';
 
 class ProfileFragment extends StatelessWidget {
   const ProfileFragment({Key? key}) : super(key: key);

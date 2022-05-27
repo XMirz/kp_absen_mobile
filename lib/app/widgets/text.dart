@@ -32,6 +32,17 @@ Widget TextHeadingSmall({required String title, Color? color}) {
   );
 }
 
+Widget TextBodyExtraLarge({required String title, Color? color}) {
+  return Text(
+    title,
+    style: GoogleFonts.nunito(
+      fontSize: 18,
+      fontWeight: FontWeight.w700,
+      color: color ?? AppColor.secondary,
+    ),
+  );
+}
+
 Widget TextBodyLargeBold({required String title, Color? color}) {
   return Text(
     title,
@@ -54,12 +65,23 @@ Widget TextBodyLarge({required String title, Color? color}) {
   );
 }
 
-Widget TextBody({required String title}) {
+Widget TextBody({required String title, Color? color}) {
   return Text(
     title,
     style: GoogleFonts.nunito(
       fontSize: 14,
-      color: AppColor.secondary,
+      color: color ?? AppColor.secondary,
+    ),
+  );
+}
+
+Widget TextBodyBold({required String title, Color? color}) {
+  return Text(
+    title,
+    style: GoogleFonts.nunito(
+      fontWeight: FontWeight.w700,
+      fontSize: 14,
+      color: color ?? AppColor.secondary,
     ),
   );
 }

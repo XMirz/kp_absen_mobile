@@ -26,7 +26,7 @@ class ImageCard extends StatelessWidget {
             spaceY(12),
             TextHeadingSmall(title: user.name ?? '-'),
             // spaceY(4),
-            TextBodyLarge(title: user.nip ?? '-')
+            TextBodyLargeBold(title: user.nip ?? '-')
           ],
         ),
       ),

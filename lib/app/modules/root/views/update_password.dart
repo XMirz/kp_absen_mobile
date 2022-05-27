@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:heroicons/heroicons.dart';
 import 'package:kp_mobile/app/modules/root/controllers/root_controller.dart';
@@ -13,9 +10,9 @@ class UpdatePasswordView extends StatelessWidget {
   UpdatePasswordView({Key? key}) : super(key: key);
   late RootController controller;
   final formKey = GlobalKey<FormState>();
-  TextEditingController oldPasswordController = TextEditingController();
-  TextEditingController newPasswordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
+  final oldPasswordController = TextEditingController();
+  final newPasswordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     controller = Get.find<RootController>();

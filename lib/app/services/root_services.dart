@@ -1,20 +1,16 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' hide Response;
 import 'package:kp_mobile/app/data/models/configuration.dart';
 import 'package:kp_mobile/app/data/models/presence.dart';
 import 'package:kp_mobile/app/data/models/user.dart';
 import 'package:kp_mobile/app/services/dio_client.dart';
-import 'package:kp_mobile/app/services/storage_service.dart';
 
 class RootServices {
   late String token;
   late Dio _client;
-  late StorageService _storageService;
   RootServices(String token) {
     _client = DioClient().init(token: token);
-    _storageService = Get.find<StorageService>();
   }
 
   Future<User?> getAuthUser() async {
@@ -54,7 +50,6 @@ class RootServices {
       Response response = id == null
           ? await _client.post('/presence', data: data)
           : await _client.patch('/presence/$id', data: data);
-      ;
       if (response.data['todayPresence'] != null) {
         var todayPresence =
             Presence.fromJson(jsonEncode(response.data['todayPresence']));

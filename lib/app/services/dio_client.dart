@@ -4,22 +4,21 @@ import 'package:kp_mobile/app/routes/app_pages.dart';
 import 'package:kp_mobile/app/services/storage_service.dart';
 
 class DioClient {
-  late StorageService _service;
   Dio init({String? token}) {
     Dio dio = Dio();
-    dio.options.baseUrl = 'http://192.168.45.109:3000/api';
+    dio.options.baseUrl = 'http://192.168.139.109:3000/api';
     dio.options.contentType = Headers.jsonContentType;
     dio.options.headers['accept'] = 'application/json';
     dio.interceptors.add(DioInterceptors());
     if (token != null) {
       dio.options.headers['Authorization'] = 'Bearer $token';
     }
-    _service = Get.find<StorageService>();
     return dio;
   }
 }
 
 class DioInterceptors extends Interceptor {
+  final StorageService _service = Get.find<StorageService>();
   @override
   Future<dynamic> onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
@@ -35,7 +34,7 @@ class DioInterceptors extends Interceptor {
     // throw to login if token is wrong
     if (err.response?.statusCode == 401) {
       print('Token expired');
-
+      _service.deleteAuthToken();
       Get.offAndToNamed(Routes.LOGIN);
       return;
     }

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:kp_mobile/app/values/styles.dart';
 import 'package:kp_mobile/app/widgets/text.dart';
 
 class ProfileInfoCard extends StatelessWidget {
@@ -22,7 +19,7 @@ class ProfileInfoCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextBodySmall(title: label),
-          TextBodyLarge(title: value),
+          TextBodyLargeBold(title: value),
         ],
       ),
     );
