@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -55,6 +57,7 @@ class RootController extends GetxController {
     // get initialConfigData
     var fetchConfigurationData = await _services.getInitialData();
     if (fetchConfigurationData != null) {
+      inspect(fetchConfigurationData);
       configuration.value = fetchConfigurationData;
       if (fetchConfigurationData.todayPresence != null) {
         todayPresence.value =

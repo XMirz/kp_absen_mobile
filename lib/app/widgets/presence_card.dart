@@ -28,6 +28,7 @@ class PresenceCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         onTap: () {
           showModalBottomSheet(
+            useRootNavigator: true,
             context: context,
             builder: (context) => PresenceDetailModal(presence: presence),
           );

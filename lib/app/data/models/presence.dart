@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:flutter/foundation.dart';
 
@@ -58,6 +60,7 @@ class Presence {
   }
 
   factory Presence.fromMap(Map<String, dynamic> map) {
+    inspect(map);
     return Presence(
       id: map['id']?.toInt(),
       inArea: map['inArea'],
@@ -72,8 +75,12 @@ class Presence {
       checkOutTime: map['checkOutTime'] != null
           ? DateTime.parse(map['checkOutTime'])
           : null,
-      checkInDistance: map['checkInDistance']?.toDouble(),
-      checkOutDistance: map['checkOutDistance']?.toDouble(),
+      checkInDistance: map['checkInDistance'] != null
+          ? double.tryParse(map['checkInDistance'])
+          : null,
+      checkOutDistance: map['checkOutDistance'] != null
+          ? double.tryParse(map['checkOutDistance'])
+          : null,
     );
   }
 
