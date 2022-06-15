@@ -60,7 +60,7 @@ class Presence {
   }
 
   factory Presence.fromMap(Map<String, dynamic> map) {
-    inspect(map);
+    // inspect(map);
     return Presence(
       id: map['id']?.toInt(),
       inArea: map['inArea'],

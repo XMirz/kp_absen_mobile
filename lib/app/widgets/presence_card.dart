@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,9 +30,12 @@ class PresenceCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         onTap: () {
           showModalBottomSheet(
-            useRootNavigator: true,
+            // useRootNavigator: true,
             context: context,
-            builder: (context) => PresenceDetailModal(presence: presence),
+            builder: (context) {
+              // return Container();
+              return PresenceDetailModal(presence: presence);
+            },
           );
         },
         child: Padding(
@@ -58,7 +63,7 @@ class PresenceCard extends StatelessWidget {
                             TextSpan(text: 'Sekitar '),
                             TextSpan(
                                 text: controller.getDistanceFromOfficeText(
-                                  presence.checkInDistance?.toInt(),
+                                  presence.checkInDistance!.toInt(),
                                 ),
                                 style: TextStyle(fontWeight: FontWeight.w600)),
                             TextSpan(text: ' dari kantor', style: TextStyle())

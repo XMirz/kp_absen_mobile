@@ -45,7 +45,7 @@ class GeolocatorService extends Geolocator {
     // Jika jika permmission diijinkan
     if (permission != LocationPermission.always &&
         permission != LocationPermission.whileInUse) {
-      inspect(permission);
+      // inspect(permission);
       await Helper.showConfirmationDialog(
           title: 'Perhatian!',
           showCancel: false,

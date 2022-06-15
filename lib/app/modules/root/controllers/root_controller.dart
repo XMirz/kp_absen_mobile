@@ -78,7 +78,7 @@ class RootController extends GetxController {
     // Determine distance
     metersFromOffice.value = getDistanceFromOffice();
     distanceFromOfficeText.value =
-        getDistanceFromOfficeText(metersFromOffice.value);
+        getDistanceFromOfficeText(metersFromOffice.value.toInt());
   }
 
   double getDistanceFromOffice() {
@@ -91,7 +91,7 @@ class RootController extends GetxController {
     return distance;
   }
 
-  String getDistanceFromOfficeText(distance) {
+  String getDistanceFromOfficeText(int distance) {
     if (distance > 1000) {
       return '${(distance / 1000).toStringAsFixed(2)} km';
     }

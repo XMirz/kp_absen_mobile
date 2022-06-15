@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +16,8 @@ class PresenceDetailModal extends StatelessWidget {
   PresenceDetailModal({Key? key, required this.presence}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    inspect(presence);
+
     final controller = Get.find<RootController>();
 
     return ModalLayout(
@@ -78,8 +82,8 @@ class PresenceDetailModal extends StatelessWidget {
                 TextBodyBold(title: 'Jarak ke kantor', color: Colors.white),
                 spaceY(4),
                 TextHeadingSmall(
-                    title: controller
-                        .getDistanceFromOfficeText(presence.checkInDistance),
+                    title: controller.getDistanceFromOfficeText(
+                        presence.checkInDistance!.toInt()),
                     color: Colors.white),
               ],
             ),
@@ -139,8 +143,8 @@ class PresenceDetailModal extends StatelessWidget {
                     title: 'Jarak ke kantor', color: AppColor.secondaryLight),
                 spaceY(4),
                 TextHeadingSmall(
-                  title: controller
-                      .getDistanceFromOfficeText(presence.checkOutDistance),
+                  title: controller.getDistanceFromOfficeText(
+                      presence.checkOutDistance!.toInt()),
                 ),
               ],
             ),
