@@ -21,9 +21,11 @@ class TextHeading extends StatelessWidget {
   }
 }
 
-Widget TextHeadingSmall({required String title, Color? color}) {
+Widget TextHeadingSmall(
+    {required String title, Color? color, TextAlign? textAlign}) {
   return Text(
     title,
+    textAlign: textAlign,
     style: GoogleFonts.poppins(
       fontSize: 16,
       color: color ?? AppColor.secondary,

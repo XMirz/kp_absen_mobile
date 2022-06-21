@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:flutter/foundation.dart';
 
 class Presence {
   int? id;
-  bool? inArea;
+  String? type;
+  String? description;
   Map<String, double>? checkInLocation;
   Map<String, double>? checkOutLocation;
   DateTime? checkInTime;
@@ -15,7 +14,8 @@ class Presence {
   double? checkOutDistance;
   Presence({
     this.id,
-    this.inArea,
+    this.type,
+    this.description,
     this.checkInLocation,
     this.checkOutLocation,
     this.checkInTime,
@@ -26,7 +26,8 @@ class Presence {
 
   Presence copyWith({
     int? id,
-    bool? inArea,
+    String? type,
+    String? description,
     Map<String, double>? checkInLocation,
     Map<String, double>? checkOutLocation,
     DateTime? checkInTime,
@@ -36,7 +37,8 @@ class Presence {
   }) {
     return Presence(
       id: id ?? this.id,
-      inArea: inArea ?? this.inArea,
+      type: type ?? this.type,
+      description: description ?? this.description,
       checkInLocation: checkInLocation ?? this.checkInLocation,
       checkOutLocation: checkOutLocation ?? this.checkOutLocation,
       checkInTime: checkInTime ?? this.checkInTime,
@@ -49,7 +51,8 @@ class Presence {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'inArea': inArea,
+      'type': type,
+      'description': description,
       'checkInLocation': checkInLocation,
       'checkOutLocation': checkOutLocation,
       'checkInTime': checkInTime?.millisecondsSinceEpoch,
@@ -63,7 +66,8 @@ class Presence {
     // inspect(map);
     return Presence(
       id: map['id']?.toInt(),
-      inArea: map['inArea'],
+      type: map['type'],
+      description: map['description'],
       checkInLocation:
           Map<String, double>.from(jsonDecode(map['checkInLocation'])),
       checkOutLocation: map['checkOutLocation'] != null
@@ -91,7 +95,7 @@ class Presence {
 
   @override
   String toString() {
-    return 'Presence(id: $id, inArea: $inArea, checkInLocation: $checkInLocation, checkOutLocation: $checkOutLocation, checkInTime: $checkInTime, checkOutTime: $checkOutTime, checkInDistance: $checkInDistance, checkOutDistance: $checkOutDistance)';
+    return 'Presence(id: $id, type: $type, checkInLocation: $checkInLocation, checkOutLocation: $checkOutLocation, checkInTime: $checkInTime, checkOutTime: $checkOutTime, checkInDistance: $checkInDistance, checkOutDistance: $checkOutDistance)';
   }
 
   @override
@@ -100,7 +104,8 @@ class Presence {
 
     return other is Presence &&
         other.id == id &&
-        other.inArea == inArea &&
+        other.type == type &&
+        other.description == description &&
         mapEquals(other.checkInLocation, checkInLocation) &&
         mapEquals(other.checkOutLocation, checkOutLocation) &&
         other.checkInTime == checkInTime &&
@@ -112,7 +117,8 @@ class Presence {
   @override
   int get hashCode {
     return id.hashCode ^
-        inArea.hashCode ^
+        type.hashCode ^
+        description.hashCode ^
         checkInLocation.hashCode ^
         checkOutLocation.hashCode ^
         checkInTime.hashCode ^

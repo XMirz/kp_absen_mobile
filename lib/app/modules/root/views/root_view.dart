@@ -37,19 +37,19 @@ class RootView extends GetView<RootController> {
             : FloatingActionButton(
                 backgroundColor:
                     // Check if its a check out time or check in time
-                    controller.todayPresence.value.checkInTime != null &&
-                            controller.todayPresence.value.checkOutTime == null
+                    controller.todayPresence.value!.checkInTime != null &&
+                            controller.todayPresence.value!.checkOutTime == null
                         ? AppColor.error
                         : AppColor.success,
                 onPressed: () {
-                  controller.todayPresence.value.checkInTime != null &&
-                          controller.todayPresence.value.checkOutTime == null
+                  controller.todayPresence.value!.checkInTime != null &&
+                          controller.todayPresence.value!.checkOutTime == null
                       ? controller.checkOut()
-                      : controller.checkIn();
+                      : controller.handleFab();
                 },
                 child: HeroIcon(
-                  controller.todayPresence.value.checkInTime != null &&
-                          controller.todayPresence.value.checkOutTime == null
+                  controller.todayPresence.value!.checkInTime != null &&
+                          controller.todayPresence.value!.checkOutTime == null
                       ? HeroIcons.x
                       : HeroIcons.check,
                   size: 32,

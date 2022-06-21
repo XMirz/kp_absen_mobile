@@ -6,7 +6,7 @@ import 'package:kp_mobile/app/services/storage_service.dart';
 class DioClient {
   Dio init({String? token}) {
     Dio dio = Dio();
-    dio.options.baseUrl = 'http://192.168.200.109:3000/api';
+    dio.options.baseUrl = 'http://192.168.241.109:3000/api';
     // dio.options.baseUrl = 'http://kp-absensi.herokuapp.com/api';
     dio.options.contentType = Headers.jsonContentType;
     dio.options.headers['accept'] = 'application/json';

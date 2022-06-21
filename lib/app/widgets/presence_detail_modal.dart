@@ -64,7 +64,7 @@ class PresenceDetailModal extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                TextBodyBold(title: 'Waktu masuk', color: Colors.white),
+                TextBodyBold(title: 'Waktu presensi', color: Colors.white),
                 spaceY(4),
                 TextHeadingSmall(
                     title:
@@ -74,81 +74,92 @@ class PresenceDetailModal extends StatelessWidget {
                 TextBodyBold(title: 'Status presensi', color: Colors.white),
                 spaceY(4),
                 TextHeadingSmall(
-                    title: presence.inArea == true
-                        ? 'Presensi di Kantor'
-                        : 'Presensi di Lapangan',
+                    title: getPresenceTypeText(presence.type ?? ''),
                     color: Colors.white),
                 spaceY(12),
-                TextBodyBold(title: 'Jarak ke kantor', color: Colors.white),
+                TextBodyBold(
+                    title: isPresent(presence.type ?? '')
+                        ? 'Jarak ke kantor'
+                        : 'Keterangan',
+                    color: Colors.white),
                 spaceY(4),
-                TextHeadingSmall(
-                    title: controller.getDistanceFromOfficeText(
-                        presence.checkInDistance!.toInt()),
+                TextBodyLarge(
+                    title: isPresent(presence.type ?? '')
+                        ? controller.getDistanceFromOfficeText(
+                            presence.checkInDistance!.toInt())
+                        : presence.description ?? '',
                     color: Colors.white),
               ],
             ),
           ),
           spaceY(12),
           // Keluar
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextBodyLargeBold(
-                title: 'Keluar',
-              ),
-              TextButton(
-                onPressed: () async {
-                  await controller.openMap(
-                    title: 'Lokasi presensi',
-                    coords: Coords(
-                      presence.checkOutLocation!['latitude']!,
-                      presence.checkOutLocation!['longitude']!,
+          isPresent(presence.type!) && presence.checkOutTime != null
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextBodyLargeBold(
+                      title: 'Keluar',
                     ),
-                  );
-                },
-                child:
-                    TextBodyBold(title: 'Lihat lokasi', color: AppColor.accent),
-              )
-            ],
-          ),
-          Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              // boxShadow: [shadowExtraSmall],
-              border: Border.all(
-                  color: Colors.black.withOpacity(
-                    0.25,
+                    TextButton(
+                      onPressed: () async {
+                        await controller.openMap(
+                          title: 'Lokasi presensi',
+                          coords: Coords(
+                            presence.checkOutLocation!['latitude']!,
+                            presence.checkOutLocation!['longitude']!,
+                          ),
+                        );
+                      },
+                      child: TextBodyBold(
+                          title: 'Lihat lokasi', color: AppColor.accent),
+                    )
+                  ],
+                )
+              : Container(),
+          isPresent(presence.type!) && presence.checkOutTime != null
+              ? Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    // boxShadow: [shadowExtraSmall],
+                    border: Border.all(
+                        color: Colors.black.withOpacity(
+                          0.25,
+                        ),
+                        width: 1),
                   ),
-                  width: 1),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TextBody(title: 'Waktu masuk', color: AppColor.secondaryLight),
-                spaceY(4),
-                TextHeadingSmall(
-                    title:
-                        '${DateFormat('HH:mm').format(presence.checkOutTime!)} WIB'),
-                spaceY(12),
-                TextBody(
-                    title: 'Status presensi', color: AppColor.secondaryLight),
-                spaceY(4),
-                TextHeadingSmall(
-                    title: presence.inArea == true
-                        ? 'Presensi di Kantor'
-                        : 'Presensi di Lapangan'),
-                spaceY(12),
-                TextBody(
-                    title: 'Jarak ke kantor', color: AppColor.secondaryLight),
-                spaceY(4),
-                TextHeadingSmall(
-                  title: controller.getDistanceFromOfficeText(
-                      presence.checkOutDistance!.toInt()),
-                ),
-              ],
-            ),
-          ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      TextBody(
+                          title: 'Waktu presensi',
+                          color: AppColor.secondaryLight),
+                      spaceY(4),
+                      TextHeadingSmall(
+                          title:
+                              '${DateFormat('HH:mm').format(presence.checkOutTime!)} WIB'),
+                      spaceY(12),
+                      TextBody(
+                          title: 'Status presensi',
+                          color: AppColor.secondaryLight),
+                      spaceY(4),
+                      TextHeadingSmall(
+                        title: getPresenceTypeText(presence.type ?? ''),
+                      ),
+                      spaceY(12),
+                      TextBody(
+                          title: 'Jarak ke kantor',
+                          color: AppColor.secondaryLight),
+                      spaceY(4),
+                      TextHeadingSmall(
+                        title: controller.getDistanceFromOfficeText(
+                            presence.checkOutDistance!.toInt()),
+                      ),
+                    ],
+                  ),
+                )
+              : Container(),
           spaceY(16)
         ],
       ),

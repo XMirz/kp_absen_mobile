@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -10,6 +12,8 @@ import 'package:kp_mobile/app/routes/app_pages.dart';
 import 'package:kp_mobile/app/services/geolocator_service.dart';
 import 'package:kp_mobile/app/services/root_services.dart';
 import 'package:kp_mobile/app/services/storage_service.dart';
+import 'package:kp_mobile/app/utils/helper.dart';
+import 'package:kp_mobile/app/widgets/text.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 class RootController extends GetxController {
@@ -17,15 +21,19 @@ class RootController extends GetxController {
   late String token;
   late RootServices _services;
   late Position currentPosition;
+
+  TextEditingController presenceController = TextEditingController();
+
   RxBool updatePasswordObsecured =
       true.obs; // Obsecure status for update password view,
   Rx<User> user = User().obs;
   Rx<Configuration> configuration = Configuration().obs;
-  Rx<Presence> todayPresence = Presence().obs;
+  Rx<Presence?> todayPresence = Rx<Presence?>(null);
   RxList<Presence> presencesHistory = <Presence>[].obs;
   RxInt fragmentIndex = 0.obs;
   RxDouble metersFromOffice = 0.0.obs;
   RxString distanceFromOfficeText = '-'.obs;
+  RxString presenceType = 'presence'.obs;
 
   @override
   void onInit() async {
@@ -98,27 +106,132 @@ class RootController extends GetxController {
     return '${distance.toStringAsFixed(2)} m';
   }
 
+  Future<void> handleFab() async {
+    Get.dialog(SafeArea(
+      child: Center(
+        child: Container(
+          width: Get.width * 0.8,
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: Colors.white,
+          ),
+          child: Obx(
+            () => Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: TextHeadingSmall(
+                    title: 'Presensi Hari Ini',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                spaceY(20),
+                TextBody(
+                  title: 'Presensi',
+                ),
+                spaceY(4),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black.withOpacity(0.4)),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: DropdownButton<String>(
+                    value: presenceType.value,
+                    isExpanded: true,
+                    borderRadius: BorderRadius.circular(8),
+                    underline: Container(),
+                    items: [
+                      DropdownMenuItem<String>(
+                        child: TextBodyLarge(title: 'Hadir'),
+                        value: 'presence',
+                      ),
+                      DropdownMenuItem<String>(
+                        child: TextBodyLarge(title: 'Izin'),
+                        value: 'permit',
+                      ),
+                      DropdownMenuItem<String>(
+                        child: TextBodyLarge(title: 'Sakit'),
+                        value: 'diseased',
+                      ),
+                    ],
+                    onChanged: (value) {
+                      presenceType.value = value!;
+                    },
+                  ),
+                ),
+                spaceY(8),
+                TextBody(
+                  title: 'Keterangan',
+                ),
+                spaceY(4),
+                TextField(
+                  controller: presenceController,
+                  maxLines: 4,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey.shade800,
+                  ),
+                  decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide:
+                          BorderSide(color: Colors.black.withOpacity(0.3)),
+                    ),
+                  ),
+                ),
+                spaceY(8),
+                ElevatedButton(
+                  onPressed: () {
+                    Future.delayed(Duration(milliseconds: 500), () async {
+                      await checkIn();
+                      presenceController.text = '';
+                    });
+                    Get.back();
+                  },
+                  child: TextBodyLarge(title: 'Kirim', color: Colors.white),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    ));
+  }
+
   Future<void> checkIn() async {
     EasyLoading.show(status: 'Mohon tunggu...');
-    var todayPresence = await _services
-        .checkInOut(metersDistance: metersFromOffice.value, currentLocation: {
-      'longitude': currentPosition.longitude,
-      'latitude': currentPosition.latitude,
-    });
+    var todayPresence = await _services.checkIn(
+        type: presenceType.value,
+        description: presenceController.text,
+        metersDistance: metersFromOffice.value,
+        currentLocation: {
+          'longitude': currentPosition.longitude,
+          'latitude': currentPosition.latitude,
+        });
     await Future.delayed(Duration(seconds: 3)); // Show loading longeer :v
     EasyLoading.dismiss();
     if (todayPresence != null) {
       this.todayPresence.value = todayPresence;
-      EasyLoading.showSuccess('Absensi masuk berhasil');
+      EasyLoading.showSuccess('Presensi berhasil dilakukan');
       return;
     }
-    EasyLoading.showError('Absensi masuk gagal.');
+    EasyLoading.showError('Presensi gagal dilakukan');
   }
 
   Future<void> checkOut() async {
     EasyLoading.show(status: 'Mohon tunggu...');
-    var todayPresence = await _services.checkInOut(
-        id: this.todayPresence.value.id,
+    var todayPresence = await _services.checkOut(
+        id: this.todayPresence.value!.id!,
         metersDistance: metersFromOffice.value,
         currentLocation: {
           'longitude': currentPosition.longitude,

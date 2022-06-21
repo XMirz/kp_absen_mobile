@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kp_mobile/app/data/models/presence.dart';
 import 'package:kp_mobile/app/values/colors.dart';
+import 'package:kp_mobile/app/values/constant.dart';
 
 class Helper {
   Helper.showSnackBar(String message,
@@ -75,4 +77,17 @@ Widget spaceX(double width) {
   return SizedBox(
     width: width,
   );
+}
+
+String getPresenceTypeText(String type) {
+  if (type == presenceType.inArea) return 'Kantor';
+  if (type == presenceType.out) return 'Lapangan';
+  if (type == presenceType.permit) return 'Izin';
+  if (type == presenceType.diseased) return 'Sakit';
+  return '';
+}
+
+bool isPresent(String type) {
+  if (type == presenceType.inArea || type == presenceType.out) return true;
+  return false;
 }

@@ -8,7 +8,9 @@ import 'package:kp_mobile/app/data/models/presence.dart';
 import 'package:kp_mobile/app/modules/root/controllers/root_controller.dart';
 import 'package:kp_mobile/app/utils/helper.dart';
 import 'package:kp_mobile/app/values/colors.dart';
+import 'package:kp_mobile/app/values/constant.dart';
 import 'package:kp_mobile/app/widgets/presence_detail_modal.dart';
+import 'package:kp_mobile/app/widgets/text.dart';
 
 class PresenceCard extends StatelessWidget {
   final Presence presence;
@@ -54,50 +56,57 @@ class PresenceCard extends StatelessWidget {
                           fontWeight: FontWeight.w500, fontSize: 15),
                     ),
                     spaceY(8),
-                    Text(presence.inArea == true ? 'Kantor' : 'Lapangan'),
+                    Text(getPresenceTypeText(presence.type!)),
                     spaceY(4),
-                    RichText(
-                      text: TextSpan(
-                          style: TextStyle(color: AppColor.secondary),
-                          children: <TextSpan>[
-                            TextSpan(text: 'Sekitar '),
-                            TextSpan(
-                                text: controller.getDistanceFromOfficeText(
-                                  presence.checkInDistance!.toInt(),
-                                ),
-                                style: TextStyle(fontWeight: FontWeight.w600)),
-                            TextSpan(text: ' dari kantor', style: TextStyle())
-                          ]),
-                    )
+                    isPresent(presence.type ?? '')
+                        ? RichText(
+                            text: TextSpan(
+                                style: TextStyle(color: AppColor.secondary),
+                                children: <TextSpan>[
+                                  TextSpan(text: 'Sekitar '),
+                                  TextSpan(
+                                      text:
+                                          controller.getDistanceFromOfficeText(
+                                        presence.checkInDistance!.toInt(),
+                                      ),
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600)),
+                                  TextSpan(
+                                      text: ' dari kantor', style: TextStyle())
+                                ]),
+                          )
+                        : TextBody(title: presence.description ?? '-'),
                   ],
                 ),
               ),
-              Row(
-                children: [
-                  Column(
-                    children: [
-                      Text('Masuk', style: TextStyle(fontSize: 12)),
-                      spaceY(12),
-                      Text('Keluar', style: TextStyle(fontSize: 12)),
-                    ],
-                  ),
-                  spaceX(12),
-                  Column(
-                    children: [
-                      Text(
-                        '${DateFormat('HH:mm').format(presence.checkInTime!)} WIB',
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500, fontSize: 16),
-                      ),
-                      Text(
-                        '${presence.checkOutTime != null ? DateFormat('HH:mm').format(presence.checkOutTime!) : '-'} ${presence.checkOutTime != null ? 'WIB' : ''}',
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w500, fontSize: 16),
-                      )
-                    ],
-                  )
-                ],
-              ),
+              isPresent(presence.type ?? '')
+                  ? Row(
+                      children: [
+                        Column(
+                          children: [
+                            Text('Masuk', style: TextStyle(fontSize: 12)),
+                            spaceY(12),
+                            Text('Keluar', style: TextStyle(fontSize: 12)),
+                          ],
+                        ),
+                        spaceX(12),
+                        Column(
+                          children: [
+                            Text(
+                              '${DateFormat('HH:mm').format(presence.checkInTime!)} WIB',
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w500, fontSize: 16),
+                            ),
+                            Text(
+                              '${presence.checkOutTime != null ? DateFormat('HH:mm').format(presence.checkOutTime!) : '-'} ${presence.checkOutTime != null ? 'WIB' : ''}',
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w500, fontSize: 16),
+                            )
+                          ],
+                        )
+                      ],
+                    )
+                  : Container(),
             ],
           ),
         ),

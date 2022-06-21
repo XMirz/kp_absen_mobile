@@ -36,10 +36,38 @@ class RootServices {
   }
 
 // If id is null, so its a checkIn
-  Future<Presence?> checkInOut(
-      {required double metersDistance,
-      required Map<String, dynamic> currentLocation,
-      int? id}) async {
+  Future<Presence?> checkIn({
+    required double metersDistance,
+    required Map<String, dynamic> currentLocation,
+    required String type,
+    required String description,
+  }) async {
+    final data = {
+      "distance": metersDistance.roundToDouble(),
+      "location": currentLocation,
+      "type": type,
+      "description": description,
+    };
+    try {
+      Response response = await _client.post('/presence', data: data);
+      if (response.data['todayPresence'] != null) {
+        var todayPresence =
+            Presence.fromJson(jsonEncode(response.data['todayPresence']));
+        return todayPresence;
+      }
+    } on DioError catch (e) {
+      print(e.message);
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
+
+  Future<Presence?> checkOut({
+    required double metersDistance,
+    required Map<String, dynamic> currentLocation,
+    required int id,
+  }) async {
     final data = {
       "inArea": metersDistance < 100 ? true : false,
       "distance": metersDistance.roundToDouble(),
@@ -47,9 +75,7 @@ class RootServices {
     };
     try {
       // If id is null, so its a new presence for today, and if its not, its an checkout request
-      Response response = id == null
-          ? await _client.post('/presence', data: data)
-          : await _client.patch('/presence/$id', data: data);
+      Response response = await _client.patch('/presence/$id', data: data);
       if (response.data['todayPresence'] != null) {
         var todayPresence =
             Presence.fromJson(jsonEncode(response.data['todayPresence']));
